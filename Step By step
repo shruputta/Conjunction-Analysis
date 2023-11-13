@@ -1,0 +1,116 @@
+1.	NORAD_CAT_ID_1: 51036
+•	This is the NORAD catalog ID of the first satellite involved in the conjunction.
+2.	OBJECT_NAME_1: LEMUR-2-ROHOVITHSA [+]
+•	The name or designation of the first satellite involved in the conjunction.
+3.	DSE_1: 1.29
+•	This appears to be a specific parameter or attribute related to the first satellite but doesn't have a clear standard meaning.
+4.	NORAD_CAT_ID_2: 49529
+•	This is the NORAD catalog ID of the second satellite involved in the conjunction.
+5.	OBJECT_NAME_2: COSMOS 1408 DEB [-]
+•	The name or designation of the second satellite involved in the conjunction. The "[-]" may indicate that this is a debris object.
+6.	DSE_2: 1.368
+•	Similar to DSE_1, this appears to be a specific parameter related to the second satellite.
+7.	TCA (Time to Closest Approach): 35:14.6
+•	This is the date and time when the two satellites are predicted to be closest to each other during the conjunction.
+8.	TCA_RANGE: 0.016
+•	This value represents the range or distance between the two satellites at the time of the closest approach.
+9.	TCA_RELATIVE_SPEED: 13.685
+•	This is the relative speed of the two satellites at the time of closest approach.
+10.	MAX_PROB (Maximum Probability): 9.18E-03
+•	This value indicates the maximum probability or likelihood of a collision occurring during the conjunction.
+11.	DILUTION: 0.007
+•	DILUTION may represent a measure of how diluted or dispersed the risk of collision is during the conjunction, indicating the level of risk or severity.
+
+
+
+
+the data cleaning steps as if you're presenting them:
+1. Consistent Time Format: Make sure all times in the "TCA" column follow the same "hh:mm.ss" format. Fix any variations.
+2. Missing Data Handling: Decide what to do with missing info in important columns. You can either fill in defaults or remove rows with missing data.
+3. Special Characters and Encoding: Check for weird characters in text data. Ensure all text is clean and readable.
+4. Object Names Matching: Confirm that object names in "OBJECT_NAME_1" and "OBJECT_NAME_2" match when they're the same.
+5. Outlier Detection: Identify and handle extreme values in columns like "TCA_RANGE," "TCA_RELATIVE_SPEED," "MAX_PROB," and "DILUTION."
+6. Data Type Consistency: Ensure numbers are recognized as numbers and are in the same format (e.g., using a dot for decimals).
+7. Validate Numerical Values: Verify that numbers like "MAX_PROB" and "DILUTION" are within the expected range, typically between 0 and 1.
+
+
+steps to calculate a threshold value for "active" satellites based on the "DSE" values using Python:
+1.	Load Your Data: Load your dataset into Python using libraries like Pandas.
+2.	Understand Your Data: Perform exploratory data analysis to understand the distribution and characteristics of the "DSE" values. This can involve calculating summary statistics and creating visualizations.
+3.	Define Your Criteria: Determine what you consider "active" based on the "DSE" values. This can be based on your analysis goals, domain knowledge, or stakeholder input.
+4.	Choose a Statistical Approach: Select a statistical method to calculate the threshold. Common approaches include percentiles, standard deviations, or domain-specific standards.
+5.	Calculate the Threshold: Calculate the threshold value based on the selected method (e.g., using the 90th percentile, which represents the top 10% of the data).
+6.	Apply the Threshold: Create a new column in your dataset that categorizes each satellite as "Active" or "Inactive" based on the calculated threshold.
+7.	Review and Adjust: Review the results and adjust the threshold as needed to align with your analysis goals and data characteristics.
+
+import pandas as pd
+
+# Step 1: Load Your Data
+data = pd.read_csv(sort_minRange.csv')
+
+# Step 2: Understand Your Data
+# Get summary statistics
+summary_stats = data['DSE_1'].describe()
+
+# Create a histogram
+import matplotlib.pyplot as plt
+data['DSE_1'].plot.hist()
+plt.xlabel('DSE Values')
+plt.ylabel('Frequency')
+plt.title('Histogram of DSE Values')
+plt.show()
+
+
+# Step 3: Define Your Criteria
+# Define what makes a satellite "active" based on domain knowledge and analysis goals
+
+# Step 4: Choose a Statistical Approach
+# Calculate the threshold as the 90th percentile (adjust as needed)
+threshold = data['DSE_1'].quantile(0.90)
+
+# Step 5: Calculate the Threshold
+# Set the threshold value to 0.09
+# threshold = 0.09
+
+# Step 6: Apply the Threshold
+# Create a new column for satellite 1's status
+data['SatelliteStatus_1'] = data['DSE_1'].apply(lambda x: 'Active' if x > threshold else 'Inactive')
+
+Total Number of Conjunctions for the Day:
+•	We start by counting the total number of conjunction scenarios for the given day.
+
+Number of Conjunctions Among Active Satellites:
+•	Next, we filter the dataset to include only rows where the 'SatelliteStatus' is 'Active' and count the number of conjunctions among active satellites.
+
+Number of Conjunctions Among Inactive Satellites:
+•	Similarly, we filter for 'Inactive' satellites and count the number of conjunctions.
+
+Maximum TCA Range:
+•	We find the maximum value in the 'TCA_RANGE' column, which represents the closest approach distance among all conjunction scenarios.
+
+Average Maximum Probability (MAX_PROB) of Conjunctions:
+•	We calculate the average of the 'MAX_PROB' values, representing the average probability of a conjunction occurring.
+
+Average DILUTION for Conjunctions:
+•	Lastly, we calculate the average 'DILUTION' values to understand the average level of dilution for conjunction scenarios.
+
+3: Conjunction Analytics Summary 
+Now, let's summarize these analytics in a report:
+•	Total Conjunctions: 67k
+•	Active Satellite1 Conjunctions: 6k
+•	Inactive Satellite` Conjunctions: 61k
+•	Active Satellite2 Conjunctions: 6k
+•	Inactive Satellite2 Conjunctions:61k
+•	MAX_PROB: (on a scale of 0 to 1) 0.04
+•	AverageRelative speed: 11.34
+This report provides a quick overview of the daily conjunction scenarios, distinguishing between active and inactive satellites and highlighting key statistics.
+
+4 Satellite Conjunction Data Dashboard 
+Moving on to representing satellite conjunction data for decision-making by satellite operators.
+Interactive Dashboard:
+•	We have created an interactive dashboard that empowers operators to select a specific satellite or constellation.
+•	This dashboard provides a summary of conjunction scenarios, visualizations, historical trends, and risk assessment metrics.
+
+Risk Assessment Model:
+•	Operators can now quantify the level of risk for each conjunction scenario, taking factors like TCA_RANGE, MAX_PROB, and DILUTION into account.
+
